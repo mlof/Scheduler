@@ -4,9 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scheduler"
+        xmlns:viewModels="clr-namespace:Scheduler.ViewModels"
         mc:Ignorable="d"
-        Title="ShellWindow" Height="450" Width="800">
+        Title="ShellWindow" Height="450" Width="800"
+        d:DataContext="{x:Static viewModels:ShellWindowDesignModel.Instance}">
+    <Window.Resources>
+        <CollectionViewSource Source="{Binding JobCollection}" x:Key="JobView" />
+    </Window.Resources>
+
     <Grid>
 
+        <DataGrid ItemsSource="{Binding Source={StaticResource JobView}}" />
     </Grid>
 </Window>

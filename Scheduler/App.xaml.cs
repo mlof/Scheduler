@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using Chroniton;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Quartz;
 using Scheduler.Extensions;
 using Scheduler.ViewModels;
 using Scheduler.Views;
@@ -34,6 +34,10 @@ namespace Scheduler
                 .UseConsoleLifetime()
                 .Build();
             _host.StartAsync().GetAwaiter().GetResult();
+
+            var singularity = Singularity.Instance;
+            singularity.Start();
+
         }
 
         /// <inheritdoc />
@@ -53,6 +57,8 @@ namespace Scheduler
 
             mainWindow.Show();
             mainWindow.Closed += MainWindowOnClosed;
+
+
         }
 
         private void MainWindowOnClosed(object? sender, EventArgs e)
@@ -62,8 +68,9 @@ namespace Scheduler
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
-            services.AddQuartz();
-            services.AddQuartzHostedService();
+
+            services.AddSingleton<ISingularity, Singularity>(serviceProvider => Singularity.Instance);
+
             services.RegisterView<ShellWindow, ShellWindowViewModel>();
         }
 
