@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
 using Scheduler.Extensions;
 using Scheduler.ViewModels;
 using Scheduler.Views;
@@ -61,6 +62,8 @@ namespace Scheduler
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
+            services.AddQuartz();
+            services.AddQuartzHostedService();
             services.RegisterView<ShellWindow, ShellWindowViewModel>();
         }
 
